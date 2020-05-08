@@ -1,0 +1,37 @@
+{
+    "name": "OF Creators Tool",
+    "version": "0.0.1",
+    "description": "Helps OF creators optimize their marketing",
+    "manifest_version": 2,
+    "declarativeContent":["declarativeContent"],
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": false
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://onlyfans.com/my/statements/earnings",
+                "https://onlyfans.com/my/notifications/tip"],
+            "run_at": "document_idle",
+            "js": ["OF_Finance_Scraper.js"]
+        }
+    ],
+    "page_action": {
+        "default_icon": {                    
+          "16": "images/icon16.png",           
+          "24": "images/icon24.png",           
+          "32": "images/icon32.png",
+          "48": "images/icon48.png",
+          "128": "images/icon128.png"
+        },
+        "default_title": "Track Data",
+        "default_popup": "popup.html"
+    },
+    "icons":{
+        "16": "images/icon16.png",           
+        "24": "images/icon24.png",           
+        "32": "images/icon32.png",
+        "48": "images/icon48.png",
+        "128": "images/icon128.png"
+    }
+}
