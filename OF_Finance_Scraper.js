@@ -33,7 +33,7 @@ function collectRecords() {
             var user = "";
             if (whoWhat.length >= 3) {
                 for (var k = 0; k < whoWhat.length; k++){
-                    if (whoWhat[k] == 'from'){
+                    if ((whoWhat[k] == 'from') || whoWhat[k] == 'to') {
                         break;
                     } else if (what === ''){
                         what = what + whoWhat[k];
@@ -102,4 +102,4 @@ function collectRecords() {
     return records;
 }
 
-records = collectRecords();
+collectRecords();
