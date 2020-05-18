@@ -3,7 +3,7 @@ var dollarRe = /\$([0-9]){1,4}(\.)([0-9]){1,2}/
 var yearRe = /20([1,2]{1})([0-9]{1})/
 
 function collectRecords() {
-    var records = [];
+    var records = {};
     if (document.URL === "https://onlyfans.com/my/statements/earnings") {
         var earn_table = document.getElementsByClassName('m-earnings');
         var rows = earn_table[0].getElementsByTagName('tr');
@@ -51,10 +51,10 @@ function collectRecords() {
                     userNickName = "deleted user"
                 }
             }
-            id = what + "_" + String(grossAmt) + "_" + String(epoch);  
-            records.push({"gross":grossAmt, "fee":fee, "net":netAmt
-            , "type":what, "user":user, "userNickName":userNickName, "date":date, "time":time
-            , "tz":timeZone,"isoDate":isoDateTime,"epoch":epoch, "id":id});
+            var id = "payment_" + String(epoch) + "_" + String(grossAmt) + "_" + what;
+            records[id] = {"gross":grossAmt, record_type:"transaction", "fee":fee, "net":netAmt
+            , "payment_for":what, "user":user, "userNickName":userNickName, "date":date, "time":time
+            , "tz":timeZone,"isoDate":isoDateTime,"epoch":epoch, "id":id};
         }
 
     } else if (document.URL === "https://onlyfans.com/my/notifications/tip") {
@@ -91,12 +91,13 @@ function collectRecords() {
             var tippedPost = "";
             var amount = tipRows[0].innerText;
             amount = parseFloat(dollarRe.exec(amount)[0].substring(1,amount.length));
-            if ((typeof(tippedPost) !== 'undefined') && typeof(tippedPost) === "object" && (tippedPost.length > 0)){
+            if ((typeof(tippedPostObject) !== 'undefined') && typeof(tippedPostObject) === "object" && (tippedPostObject.length > 0)){
                 tippedPost = tippedPostObject[0].href;
             }
-            records.push({"user":tipperUsername,"userNickName":tipperNickName
+            var id = "tip_" + String(epoch)+ "_" + String(grossAmt); 
+            records[id] = {"user":tipperUsername,"userNickName":tipperNickName
             ,"amount":amount,"post":tippedPost,"date":date, "time":time
-            , "tz":timeZone,"isoDate":isoDateTime,"epoch":epoch});
+            , "tz":timeZone,"isoDate":isoDateTime,"epoch":epoch, record_type:"tip"};
         }
     }
     return records;

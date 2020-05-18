@@ -2,8 +2,9 @@
 
 //<script type="module" src="OF_Finance_Scraper.js"></script>
 
-let collectData = document.getElementById('collectData');
+let collectData = document.querySelector("#collectData");
 
+console.log(collectData);
 var resultsArray;
 
 collectData.onclick = function(element) {
@@ -16,7 +17,10 @@ collectData.onclick = function(element) {
 };
 
 function receiveData(resultsArray){
+  var email = auth.currentUser.email;
   resultsArray = resultsArray;
+  console.log(resultsArray[0]);
+  console.log(typeof(resultsArray[0]));
+  db.collection('users').doc(email).set(resultsArray[0], {merge: true});
 }
 
-console.log(resultsArray);
